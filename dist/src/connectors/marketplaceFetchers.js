@@ -126,13 +126,16 @@ export const fetchProjectorsDetails = (listingsId) => __awaiter(void 0, void 0, 
         });
         const detailsObject = yield res.json();
         const { base_marketplace_listing_title, delivery_types, is_live, is_sold, listing_photos, primary_listing_photo, listing_price, location, location_text, marketplace_listing_title, redacted_description, shipping_offered, story: { strikethrough_price }, } = detailsObject.data.viewer.marketplace_product_details_page.target;
-        const myObject = {
-            base_marketplace_listing_title,
+        const transformedDetailsObject = {
+            listingTitle: base_marketplace_listing_title,
             delivery_types,
             is_live,
             is_sold,
-            listing_photos,
             primary_listing_photo,
+            photo_1: listing_photos[0].image.uri,
+            photo_2: primary_listing_photo[1].image.uri,
+            photo_3: primary_listing_photo[2].image.uri,
+            photo_4: primary_listing_photo[3].image.uri,
             listing_price,
             location,
             location_text,
@@ -141,7 +144,7 @@ export const fetchProjectorsDetails = (listingsId) => __awaiter(void 0, void 0, 
             shipping_offered,
             story: { strikethrough_price },
         };
-        console.log("this is listing detials ", myObject);
+        console.log("this is listing detials ", transformedDetailsObject);
     }
     catch (error) {
         console.log("Error while getting lsitng details", error);

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import fetch from "node-fetch";
 //TODO:
-// Turn the GET request into GraphQL queries
+// Turn the GET requests into a GraphQL query
 //
 // It is possible to use one GQL query instead of making two different fetch request
 export const fetchProjectors = () => __awaiter(void 0, void 0, void 0, function* () {

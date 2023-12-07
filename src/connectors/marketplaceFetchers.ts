@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 //TODO:
-// Turn the GET request into GraphQL queries
+// Turn the GET requests into a GraphQL query
 //
 // It is possible to use one GQL query instead of making two different fetch request
 

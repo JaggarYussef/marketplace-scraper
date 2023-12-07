@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import express from "express";
 import { fetchProjectors, } from "./src/connectors/marketplaceFetchers.js";
+const app = express();
+const port = 9000;
 const fetchedListings = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(yield fetchProjectors());
 });
-fetchedListings();
-const app = express();
-const port = 9000;
+// fetchedListings();
 app.get("/", (req, res) => {
     res.send("hellp");
 });

@@ -4,13 +4,13 @@ import {
   fetchProjectors,
 } from "./src/connectors/marketplaceFetchers.js";
 
+const app: Application = express();
+const port = 9000;
+
 const fetchedListings = async () => {
   console.log(await fetchProjectors());
 };
-fetchedListings();
-
-const app: Application = express();
-const port = 9000;
+// fetchedListings();
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hellp");

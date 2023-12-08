@@ -12,8 +12,9 @@ import fetch from "node-fetch";
 // Turn the GET requests into a GraphQL query
 //
 // It is possible to use one GQL query instead of making two different fetch request
-export const fetchProjectors = () => __awaiter(void 0, void 0, void 0, function* () {
+const fetchListings = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("Running Listings Id fetcher...");
         const res = yield fetch("https://www.facebook.com/api/graphql/", {
             headers: {
                 accept: "*/*",
@@ -44,6 +45,7 @@ export const fetchProjectors = () => __awaiter(void 0, void 0, void 0, function*
             method: "POST",
         });
         const edges = yield res.json();
+        console.log("edges ", edges);
         const listingsArray = edges.data.marketplace_search.feed_units.edges;
         const listingsIdsArray = listingsArray
             .filter((listing) => listing.node.listing)
@@ -51,13 +53,15 @@ export const fetchProjectors = () => __awaiter(void 0, void 0, void 0, function*
             const id = listing.node.listing.id;
             return id;
         });
+        console.log(`${listingsArray.length} listing have been returned`);
         return listingsIdsArray;
     }
     catch (error) {
-        console.log("error fetching projectors", error);
+        console.log("error fetching listings", error);
+        throw error;
     }
 });
-export const fetchProjectorsDetails = (listingsId) => __awaiter(void 0, void 0, void 0, function* () {
+const fetchListingsDetails = (listingsId) => __awaiter(void 0, void 0, void 0, function* () {
     const bodyVariable = {
         UFI2CommentsProvider_commentsKey: "MarketplacePDP",
         feedbackSource: 56,
@@ -125,35 +129,37 @@ export const fetchProjectorsDetails = (listingsId) => __awaiter(void 0, void 0, 
             method: "POST",
         });
         const detailsObject = yield res.json();
-        const { base_marketplace_listing_title, delivery_types, is_live, is_sold, listing_photos, primary_listing_photo, listing_price, location, location_text, marketplace_listing_title, redacted_description, shipping_offered, story: { strikethrough_price }, } = detailsObject.data.viewer.marketplace_product_details_page.target;
+        const { base_marketplace_listing_title, delivery_types, is_live, is_sold, listing_photos, primary_listing_photo, listing_price, location, location_text, marketplace_listing_title, redacted_description, shipping_offered, story: { strikethrough_pric: discount }, attribute_data, } = detailsObject.data.viewer.marketplace_product_details_page.target;
         const transformedDetailsObject = {
             listingTitle: base_marketplace_listing_title,
-            delivery_types,
-            is_live,
-            is_sold,
-            primary_listing_photo,
-            photo_1: listing_photos[0].image.uri,
-            photo_2: primary_listing_photo[1].image.uri,
-            photo_3: primary_listing_photo[2].image.uri,
-            photo_4: primary_listing_photo[3].image.uri,
-            listing_price,
-            location,
-            location_text,
-            marketplace_listing_title,
-            redacted_description,
-            shipping_offered,
-            story: { strikethrough_price },
+            secondaryTitle: marketplace_listing_title,
+            deliveryTypes: delivery_types,
+            available: is_live,
+            sold: is_sold,
+            mainPhoto: primary_listing_photo.listing_image.uri,
+            // photo_1: listing_photos[0].image.uri,
+            // photo_2: primary_listing_photo[1].image.uri,
+            // photo_3: primary_listing_photo[2].image.uri,
+            // photo_4: primary_listing_photo[3].image.uri,
+            price: listing_price.amount,
+            currency: listing_price.currency,
+            geolocation: location,
+            location: location_text.text,
+            description: redacted_description.text,
+            shipping: shipping_offered,
+            discount: { discount },
+            labels: attribute_data,
         };
-        console.log("this is listing detials ", transformedDetailsObject);
+        // console.log("this is listing details ", transformedDetailsObject);
     }
     catch (error) {
         console.log("Error while getting lsitng details", error);
     }
 });
-const mainFetch = () => __awaiter(void 0, void 0, void 0, function* () {
-    const ids = yield fetchProjectors();
-    ids.map((id) => {
-        fetchProjectorsDetails(id);
+export const detailedListings = () => __awaiter(void 0, void 0, void 0, function* () {
+    const ids = yield fetchListings();
+    const detailedListings = ids.map((id) => {
+        fetchListingsDetails(id);
     });
+    return detailedListings;
 });
-mainFetch();

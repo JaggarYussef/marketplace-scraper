@@ -5,8 +5,10 @@ import fetch from "node-fetch";
 //
 // It is possible to use one GQL query instead of making two different fetch request
 
-export const fetchProjectors = async () => {
+const fetchListings = async (): Promise<string[]> => {
   try {
+    console.log("Running Listings Id fetcher...");
+
     const res: Response = await fetch("https://www.facebook.com/api/graphql/", {
       headers: {
         accept: "*/*",
@@ -41,6 +43,8 @@ export const fetchProjectors = async () => {
       method: "POST",
     });
     const edges = await res.json();
+    console.log("edges ", edges);
+
     const listingsArray = edges.data.marketplace_search.feed_units.edges;
 
     const listingsIdsArray = listingsArray
@@ -49,13 +53,15 @@ export const fetchProjectors = async () => {
         const id = listing.node.listing.id;
         return id;
       });
+    console.log(`${listingsArray.length} listing have been returned`);
     return listingsIdsArray;
   } catch (error) {
-    console.log("error fetching projectors", error);
+    console.log("error fetching listings", error);
+    throw error;
   }
 };
 
-export const fetchProjectorsDetails = async (listingsId: String) => {
+const fetchListingsDetails = async (listingsId: String) => {
   const bodyVariable = {
     UFI2CommentsProvider_commentsKey: "MarketplacePDP",
     feedbackSource: 56,
@@ -142,38 +148,41 @@ export const fetchProjectorsDetails = async (listingsId: String) => {
       marketplace_listing_title,
       redacted_description,
       shipping_offered,
-      story: { strikethrough_price },
+      story: { strikethrough_pric: discount },
+      attribute_data,
     } = detailsObject.data.viewer.marketplace_product_details_page.target;
 
     const transformedDetailsObject = {
       listingTitle: base_marketplace_listing_title,
-      delivery_types,
-      is_live,
-      is_sold,
-      primary_listing_photo,
-      photo_1: listing_photos[0].image.uri,
-      photo_2: primary_listing_photo[1].image.uri,
-      photo_3: primary_listing_photo[2].image.uri,
-      photo_4: primary_listing_photo[3].image.uri,
-      listing_price,
-      location,
-      location_text,
-      marketplace_listing_title,
-      redacted_description,
-      shipping_offered,
-      story: { strikethrough_price },
+      secondaryTitle: marketplace_listing_title,
+      deliveryTypes: delivery_types,
+      available: is_live,
+      sold: is_sold,
+      mainPhoto: primary_listing_photo.listing_image.uri,
+      // photo_1: listing_photos[0].image.uri,
+      // photo_2: primary_listing_photo[1].image.uri,
+      // photo_3: primary_listing_photo[2].image.uri,
+      // photo_4: primary_listing_photo[3].image.uri,
+      price: listing_price.amount,
+      currency: listing_price.currency,
+      geolocation: location,
+      location: location_text.text,
+      description: redacted_description.text,
+      shipping: shipping_offered,
+      discount: { discount },
+      labels: attribute_data,
     };
 
-    console.log("this is listing detials ", transformedDetailsObject);
+    // console.log("this is listing details ", transformedDetailsObject);
   } catch (error) {
     console.log("Error while getting lsitng details", error);
   }
 };
-const mainFetch = async () => {
-  const ids = await fetchProjectors();
-  ids.map((id) => {
-    fetchProjectorsDetails(id);
+export const detailedListings = async () => {
+  const ids = await fetchListings();
+  const detailedListings = ids.map((id: String) => {
+    fetchListingsDetails(id);
   });
-};
 
-mainFetch();
+  return detailedListings;
+};

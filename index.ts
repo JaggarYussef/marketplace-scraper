@@ -1,16 +1,10 @@
 import express, { Application, Response, Request } from "express";
-import {
-  fetchProjectorsDetails,
-  fetchProjectors,
-} from "./src/connectors/marketplaceFetchers.js";
+import { detailedListings } from "./src/connectors/marketplaceFetchers.js";
 
 const app: Application = express();
 const port = 9000;
 
-const fetchedListings = async () => {
-  console.log(await fetchProjectors());
-};
-// fetchedListings();
+detailedListings();
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hellp");

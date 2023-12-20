@@ -80,7 +80,7 @@ const fetchListingsDetails = async (listingsId: String) => {
   const encodedBodyVariable = encodeURI(JSON.stringify(bodyVariable));
 
   try {
-    const res = await fetch("https://www.facebook.com/api/graphql/", {
+    const res = await await fetch("https://www.facebook.com/api/graphql/", {
       credentials: "include",
       headers: {
         "User-Agent":
@@ -91,39 +91,13 @@ const fetchListingsDetails = async (listingsId: String) => {
         "X-FB-Friendly-Name": "MarketplacePDPContainerQuery",
         "X-FB-LSD": "yV9uK7Jf9V-U_kT_Te_qfu",
         "X-ASBD-ID": "129477",
-        "Alt-Used": "www.facebook.com",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
       },
       referrer:
         "https://www.facebook.com/marketplace/114632485219548/search/?query=nikon",
-      body: `
-        av=100000400483429
-        &__user=100000400483429
-        &__a=1
-        &__req=5z
-        &__hs=19698.HYP%3Acomet_pkg.2.1..2.1
-        &dpr=1
-        &__ccg=EXCELLENT
-        &__rev=1010323978
-        &__s=tn73o5%3Axyd2qp%3Awtjp88
-        &__hsi=7310951348603023921
-        &__dyn=7AzHK4HwkEng5K8G6EjBAo2nDwAxu13wFG14yUJ3odF8vyUco5S3O2Saw8i2S1DwUx60GE5O0BU2_CxS320om78bbwto886C11xmfz83WwgEcEhwGxu782lwv89kbxS2218wc61awhUC7Udo5qfK0zEkxe2GewyDwkUtxGm2SUbElxm3y11xfxmu3W3y261eBx_y88E6a1TxWm2CVEbUGdG1Fwh888cA0z8c84q58jwTwNxe6Uak1xwJwxyo566k1FwgU4q3G1eKufw
-        &__csr=gf4t7YfNY6kY8l2IJhYj6hqP_274nd4Nnis8lqOIDN2quyfaDOTOTfOnSgWFkHp5q8BjptrGGlWujQL9JlkDBGhKGAWUy8AyqB9ABryeIyBiAtTDGFpVEOX-q_y4GACjh48GVcBeGp-AmVolgVrjAl28y8Za-jABKicgGAX-qn_AXUJmlkECuVoGicoGiUiCAgJeGyryA5ppoDyoC4oGaz8lLyk4KqmjmUthkcybAK8iAUWETjx-dx2K8zHVFVK9GaK9yFKu9xau8BokCKE-dx22Zamqu6ohy9QUhF3UKmidxa9xy5US49oy6uiEixe6oybyEBeHHBDxSA8wJyWAzoKt1GEaFpo8kfm7HwLAxd2UJ0xUgyEsyp9ETKXxS4E9Eoxq2e0OE2Ewh8GiXxS17wAgCi1vw8274cK0DE3Twlo6C3S5U6i1sjIvAiFr5wQxyfobokyk5HDsg6Ux1yp7wo6bP1RB95k9Exkiccx5Pwny0oEo-0IE7e58mwbiExxC0rOc_xu1zADUjhF8cU4uhkE4q3u2C2aaw0Anw4_w1tu0h6bJa0s61swfcE0HO0bDwZw61wfR6w4RwuU07Hy0ca5pU3sw0T-wbS4o13U3Ew5Yw9N04-w4hwzg1zEG0MU1GE6e9zA0cYwbO4UlRwso1So2-weq1Jw16e091w3OU0g6w7HwkUma0bXw27EG2S0bMw1a-0hKm0cDwf5xS0ffw1mu0Ot051w28U1gA3a0g56DgG0j20Fo2xy8yaz9ayoGz02mEjwdGt2E0z50
-        &__comet_req=15
-        &fb_dtsg=NAcMVWAh8lPC1ZulIwwUbaCcn0THmFORddH16I3Tlbq1YHvTFKpLlvQ:36:1702213505
-        &jazoest=25428
-        &lsd=Sk-zCG6nuzYOCrwOq_icMm
-        &__aaid=0
-        &__spin_r=1702213508
-        &__spin_b=trunk
-        &__spin_t=1702213508
-        &fb_api_caller_class=RelayModern
-        &fb_api_req_friendly_name=MarketplacePDPContainerQuery
-        &variables=${encodedBodyVariable}
-        &server_timestamps:true
-        &doc_id=24629152473342418`,
+      body: "av=61554975741900&__user=61554975741900&__a=1&__req=3z&__hs=19710.HYP%3Acomet_pkg.2.1..2.1&dpr=1&__ccg=EXCELLENT&__rev=1010504186&__s=64cf9t%3Anzigix%3Aakvi4a&__hsi=7314339309730027812&__dyn=7AzHK4HwkEng5K8G6EjBAo2nDwAxu13wFG1gyUW3qi7UK360CEboG0IE6u3y4o2Gwfi0LVEtwMw65xO2OU7m221FwgolzUO0-E7m4oaEnxO0Bo7O2l2Utwwwi831wiE4u9x-3m1mzXw8W58jwGzEaE5e7oqBwJK2W5olwuEjUlDw-wUwxwjFovUaU3VBwFKq2-azqwqo4i1jg2cwMwrUdUcojxK2B0oobo8oC1Hg6C13whEeE4WVU-4E&__csr=gXvEatsh45Ohj5ncZlkBHaCHsh9Oh5qknsBLZdZkLmGp7VDh9aO8BGiGhaCi-HApetABQRmWgDh4AV8Gm_yqACADyEB-Ey5GBRyqAGQi-cBxqQl29KqfDybG3h3--m4V84a6Ua4dDCwTxfxSEhCgCFawr8CdCyEb9K0OU-4Ea84e4U625o4G12wrK1AwaS1eDCxa4otwrU1ro6m06OE5606XoS2mm8wsrw04Wexe5cw0Y6fwdC09Jw3bo15U0S-1_w2WE1fVU0sNU0jgw14G0eJw20u04WU04RO2i0gq04Wo&__comet_req=15&fb_dtsg=NAcNcgj5WtBZ4GYBxCY72A_l_MtKqsd0dIMzxLVVamK0pTdwJH8IURA%3A2%3A1703002194&jazoest=25370&lsd=yV9uK7Jf9V-U_kT_Te_qfu&__aaid=0&__spin_r=1010504186&__spin_b=trunk&__spin_t=1703002329&fb_api_caller_class=RelayModern&fb_api_req_friendly_name=MarketplacePDPContainerQuery&variables=%7B%22UFI2CommentsProvider_commentsKey%22%3A%22MarketplacePDP%22%2C%22feedbackSource%22%3A56%2C%22feedLocation%22%3A%22MARKETPLACE_MEGAMALL%22%2C%22referralCode%22%3A%22null%22%2C%22scale%22%3A1%2C%22should_show_new_pdp%22%3Afalse%2C%22targetId%22%3A%22215404764808854%22%2C%22useDefaultActor%22%3Afalse%2C%22__relay_internal__pv__CometUFIIsRTAEnabledrelayprovider%22%3Afalse%2C%22__relay_internal__pv__CometUFIReactionsEnableShortNamerelayprovider%22%3Afalse%7D&server_timestamps=true&doc_id=25130333589887232",
       method: "POST",
       mode: "cors",
     });
@@ -173,7 +147,7 @@ const fetchListingsDetails = async (listingsId: String) => {
 
     console.log("this is listig details ", transformedDetailsObject);
   } catch (error) {
-    console.log("Error while getting lsistsngd details", error);
+    console.log("Error while getting lsistsngd detasils", error);
   }
 };
 export const detailedListings = async () => {
@@ -181,7 +155,7 @@ export const detailedListings = async () => {
   // const detailedListings = ids.map((id: String) => {
   //   fetchListingsDetails(id);
   // });
-  fetchListingsDetails("1065987114760995");
+  fetchListingsDetails("1720836448393684");
 
   return detailedListings;
 };
